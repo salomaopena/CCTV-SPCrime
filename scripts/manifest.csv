@@ -1,0 +1,12 @@
+source_id;source_name;target_class;license;url_or_path;attribution;notes
+d-fire;D-Fire;fire;CC0;/caminho/local/incendio_01.mp4;;local example
+pixabay;Pixabay;background;Pixabay License;https://pixabay.com/videos/id-12345/;;URL via yt-dlp: check recognizable people
+wikimedia;Wikimedia Commons;normal;CC BY 4.0;https://upload.wikimedia.org/.../arquivo.webm;Author (CC BY 4.0);direct download
+;;;;;;
+;;intrusion;;;;
+;;accident;;;;
+;;suspicious_behavior;;;;
+;;crime;;;;
+;;suspicious_object;;;;
+;;fall;;;;
+;;vandalism;;;;
