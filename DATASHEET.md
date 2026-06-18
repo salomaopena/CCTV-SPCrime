@@ -89,7 +89,7 @@ Sim: extração de frames, **filtragem de qualidade** (remoção de quadros borr
 Não. Por uma questão de privacidade e preservação da identidade, os dados brutos foram descartados e não podem ser divulgados sob qualquer circunstância.
 
 **O software de pré-processamento está disponível?**
-Sim. Todo processo de extração está disponível no repositório do github no link: `https://..`.
+Sim. Todo processo de extração está disponível no repositório do github no link: `https://github.com/salomaopena/CCTV-SPCrime`.
 
 **Como foi feita a rotulagem?**
 Anotação na ferramenta **CVAT v2.54.0**, segundo a **política orientada a eventos** (quatro pilares: objeto, ação, ambiente, relação normal/anormal). Protocolo:
