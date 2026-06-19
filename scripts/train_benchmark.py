@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-train_benchmark.py — Benchmark de detecção do CCTV-SPCrime (resolve a Tabela IV e V).
+train_benchmark.py — CCTV-SPCrime detection benchmark (solves Tables IV and V).
 
-Treina e avalia variantes da família YOLO (YOLOv8n, YOLO11n, YOLO26n) SOB O MESMO
-SPLIT e com HIPERPARÂMETROS FIXOS (reprodutibilidade), e gera:
-  - results_models.csv  -> comparativo entre modelos (Tabela IV do paper)
-  - results_perclass.csv-> resultados por classe do modelo adotado (Tabela V)
+Trains and evaluates variants of the YOLO family (YOLOv8n, YOLO11n, YOLO26n) UNDER THE SAME
+SPLIT and with FIXED HYPERPARAMETERS (reproducibility), and generates:
+  - results_models.csv  -> comparison between models (Table IV of the paper)
+  - results_perclass.csv-> results by class of the adopted model (Table V)
 
-HIPERPARÂMETROS (documentam a seção de reprodutibilidade do paper):
+HYPERPARAMETERS (they document the reproducibility section of the paper):
   imgsz=640, epochs=100, batch=16, optimizer=SGD, lr0=0.01, lrf=0.01,
   momentum=0.937, weight_decay=0.0005, patience=20, seed=0.
-  Limiar de confiança de inferência reportado: 0.37 (máx. do F1 na validação).
+  Reported inference confidence threshold: 0.37 (max F1 on validation).
 
-DEPENDÊNCIAS
+DEPENDENCIES
     pip install ultralytics
-USO
+Use
     python train_benchmark.py --data dataset/data.yaml \
         --models yolov8n.pt yolo11n.pt yolo26n.pt \
         --primary yolo26n.pt --epochs 100 --batch 16 --seed 0
@@ -29,17 +29,17 @@ from pathlib import Path
 
 HP = dict(imgsz=640, optimizer="SGD", lr0=0.01, lrf=0.01,
           momentum=0.937, weight_decay=0.0005, patience=20)
-CONF_REPORT = 0.37  # limiar de confiança reportado (F1-máx na validação)
+CONF_REPORT = 0.37  # reported confidence threshold (max F1 on validation)
 
 
 def main():
-    ap = argparse.ArgumentParser(description="Benchmark YOLO no CCTV-SPCrime (mesmo split).")
-    ap.add_argument("--data", default="dataset/data.yaml", help="data.yaml do dataset")
+    ap = argparse.ArgumentParser(description="YOLO Benchmark on CCTV-SPCrime (same split).")
+    ap.add_argument("--data", default="dataset/data.yaml", help="dataset's data.yaml")
     ap.add_argument("--models", nargs="+",
                     default=["yolov8n.pt", "yolo11n.pt", "yolo26n.pt"],
-                    help="pesos base a comparar")
+                    help="base weights to compare")
     ap.add_argument("--primary", default="yolo26n.pt",
-                    help="modelo adotado (gera a tabela por classe)")
+                    help="adopted model (generates the table by class)")
     ap.add_argument("--epochs", type=int, default=100)
     ap.add_argument("--batch", type=int, default=16)
     ap.add_argument("--seed", type=int, default=0)
@@ -51,23 +51,23 @@ def main():
     try:
         from ultralytics import YOLO
     except ImportError:
-        sys.exit("ERRO: instale o Ultralytics -> pip install ultralytics")
+        sys.exit("ERROR: install Ultralytics -> pip install ultralytics")
 
     if not Path(args.data).exists():
-        sys.exit(f"ERRO: data.yaml não encontrado: {args.data}")
+        sys.exit(f"ERROR: data.yaml not found: {args.data}")
 
     model_rows, perclass_rows = [], []
 
     for weights in args.models:
         tag = Path(weights).stem
-        print(f"\n=== {tag}: treino ({args.epochs} épocas) ===")
+        print(f"\n=== {tag}: train ({args.epochs} epoch) ===")
         model = YOLO(weights)
         model.train(
             data=args.data, epochs=args.epochs, batch=args.batch, seed=args.seed,
             project=args.project, name=f"{tag}_train", exist_ok=True, verbose=False,
             **HP,
         )
-        print(f"=== {tag}: avaliação no conjunto de TESTE ===")
+        print(f"=== {tag}: evaluation on the TEST set ===")
         metrics = model.val(
             data=args.data, split="test", conf=CONF_REPORT,
             project=args.project, name=f"{tag}_test", exist_ok=True, verbose=False,
@@ -81,11 +81,11 @@ def main():
             "recall": round(float(b.mr), 4),
         })
 
-        # tabela por classe apenas para o modelo adotado
+        # table by class only for the adopted model
         if Path(weights).stem == Path(args.primary).stem:
             names = metrics.names if hasattr(metrics, "names") else model.names
-            maps = list(b.maps)  # mAP50-95 por classe
-            # P/R por classe quando disponíveis
+            maps = list(b.maps)  # mAP50-95 per class
+            # P/R per class when available
             try:
                 p_c, r_c = list(b.p), list(b.r)
             except Exception:
@@ -101,7 +101,7 @@ def main():
                     "mAP50_95": round(float(ap50_95), 4),
                 })
 
-    # grava resultados
+    # save results
     with open(args.out_models, "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=["model", "mAP50", "mAP50_95", "precision", "recall"])
         w.writeheader(); w.writerows(model_rows)
@@ -109,12 +109,12 @@ def main():
         w = csv.DictWriter(f, fieldnames=["class_id", "class", "precision", "recall", "mAP50_95"])
         w.writeheader(); w.writerows(perclass_rows)
 
-    print("\n=== TABELA IV (comparativo de modelos) ===")
+    print("\n=== TABLE IV (comparison of models) ===")
     print(f"{'model':<12}{'mAP50':>8}{'mAP50-95':>10}{'P':>8}{'R':>8}")
     for r in model_rows:
         print(f"{r['model']:<12}{r['mAP50']:>8}{r['mAP50_95']:>10}{r['precision']:>8}{r['recall']:>8}")
-    print(f"\nArquivos: {args.out_models}, {args.out_perclass}")
-    print(f"Hiperparâmetros (p/ reprodutibilidade): {HP}, epochs={args.epochs}, "
+    print(f"\nFiles: {args.out_models}, {args.out_perclass}")
+    print(f"Hyperparameters (for reproducibility): {HP}, epochs={args.epochs}, "
           f"batch={args.batch}, seed={args.seed}, conf_report={CONF_REPORT}")
 
 

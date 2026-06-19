@@ -1,33 +1,27 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-split_dataset.py — Divide os frames coletados no formato YOLO para o CCTV-SPCrime.
+split_dataset.py — Splits the collected frames in YOLO format for CCTV-SPCrime.
 
-Lê a pasta produzida por extract_frames.py (raw_frames/<classe>/*.jpg), divide
-cada classe em treino/validação/teste (padrão 80/10/10, ESTRATIFICADO por classe
-e reprodutível por seed), monta a estrutura YOLO (images/ + labels/), gera o
-data.yaml e ATUALIZA o CSV de proveniência com a coluna 'split' e o novo caminho.
+It reads the folder produced by extract_frames.py (raw_frames/<class>/*.jpg), splits each class into train/validation/test (default 80/10/10, STRATIFIED by class and reproducible by seed), sets up the YOLO structure (images/ + labels/), generates the data.yaml, and UPDATES the provenance CSV with the 'split' column and the new path.
 
 --------------------------------------------------------------------------------
-USO
+Use
     python split_dataset.py \
         --input-dir raw_frames \
         --output-dir dataset \
         --provenance-csv provenance/frames_provenance.csv \
         --train 0.8 --val 0.1 --test 0.1 --seed 0 --mode copy
 
-ESTRUTURA DE SAÍDA
+Output Structure
     dataset/
       data.yaml
       images/{train,val,test}/...jpg
-      labels/{train,val,test}/...txt   (rótulos copiados se já existirem)
+      labels/{train,val,test}/...txt   (labels copied if they already exist)
 
-Observações:
-  - As classes vêm das subpastas de --input-dir. As classes de incidente entram
-    no data.yaml (names); 'background'/'normal' são tratadas como NEGATIVOS
-    (imagens sem objeto) e não viram classes.
-  - Se ainda não houver rótulos (.txt), só as imagens são divididas; anote depois
-    no CVAT e coloque os .txt em labels/<split>/ com o mesmo nome-base.
+Notes:
+  - The classes come from the subfolders of --input-dir. Incident classes go into data.yaml (names); 'background'/'normal' are treated as NEGATIVES (images without objects) and don't become classes.
+  - If there aren't any labels (.txt) yet, only the images are split; note it down later in CVAT and put the .txt files in labels/<split>/ with the same base name.
 --------------------------------------------------------------------------------
 """
 
@@ -57,7 +51,7 @@ def list_images(folder):
 
 
 def split_counts(n, r_train, r_val, r_test):
-    """Divide n itens garantindo val/test >= 1 quando n >= 3."""
+    """Divide n items ensuring val/test >= 1 when n >= 3."""
     n_test = int(round(n * r_test))
     n_val = int(round(n * r_val))
     if n >= 3:
@@ -86,7 +80,7 @@ def place(src, dst, mode):
 
 
 def unique_name(name, used):
-    """Evita colisão de nomes-base entre classes."""
+    """Avoids base-name collisions between classes."""
     if name not in used:
         used.add(name)
         return name
@@ -115,10 +109,10 @@ def write_data_yaml(path, out_dir, class_names):
 
 
 def update_provenance(prov_csv, basename_to_split, basename_to_newpath):
-    """Acrescenta a coluna 'split' e atualiza frame_filename no CSV."""
+    """Add the 'split' column and update frame_filename in the CSV."""
     p = Path(prov_csv)
     if not p.exists():
-        log(f"AVISO: proveniência '{prov_csv}' não encontrada; pulei a atualização.")
+        log(f"WARNING: source '{prov_csv}' not found; skipped the update.")
         return
     with open(p, newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
@@ -144,42 +138,42 @@ def update_provenance(prov_csv, basename_to_split, basename_to_newpath):
         writer.writeheader()
         for r in rows:
             writer.writerow(r)
-    log(f"Proveniência atualizada ({updated} linhas com split). Backup: {backup.name}")
+    log(f"Updated source ({updated} lines with split). Backup: {backup.name}")
 
 
 def main():
-    ap = argparse.ArgumentParser(description="Divide raw_frames/ no formato YOLO (train/val/test).")
-    ap.add_argument("--input-dir", default="raw_frames", help="pasta com subpastas por classe")
-    ap.add_argument("--output-dir", default="dataset", help="pasta de saída YOLO")
+    ap = argparse.ArgumentParser(description="Split raw_frames/ in YOLO format (train/val/test).")
+    ap.add_argument("--input-dir", default="raw_frames", help="folder with subfolders by class")
+    ap.add_argument("--output-dir", default="dataset", help="YOLO output folder")
     ap.add_argument("--provenance-csv", default="provenance/frames_provenance.csv",
-                    help="CSV de proveniência por frame a atualizar (opcional)")
+                    help="Provenance CSV per frame to update (optional)")
     ap.add_argument("--labels-dir", default=None,
-                    help="pasta de rótulos .txt existentes (espelha as classes); opcional")
+                    help="folder of existing .txt labels (mirrors the classes); optional")
     ap.add_argument("--train", type=float, default=0.8)
     ap.add_argument("--val", type=float, default=0.1)
     ap.add_argument("--test", type=float, default=0.1)
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--mode", choices=["copy", "move", "symlink"], default="copy")
-    ap.add_argument("--overwrite", action="store_true", help="sobrescreve a pasta de saída")
+    ap.add_argument("--overwrite", action="store_true", help="overwrite the output folder")
     args = ap.parse_args()
 
     if abs((args.train + args.val + args.test) - 1.0) > 1e-6:
-        sys.exit("ERRO: train+val+test deve somar 1.0")
+        sys.exit("ERROR: train+val+test should add up to 1.0")
 
     in_dir = Path(args.input_dir)
     if not in_dir.is_dir():
-        sys.exit(f"ERRO: pasta de entrada não existe: {in_dir}")
+        sys.exit(f"ERROR: input folder doesn't exist: {in_dir}")
 
     out_dir = Path(args.output_dir)
     if out_dir.exists() and not args.overwrite:
-        sys.exit(f"ERRO: '{out_dir}' já existe. Use --overwrite para sobrescrever.")
+        sys.exit(f"ERROR: '{out_dir}' already exists. Use --overwrite to overwrite.")
     for split in ("train", "val", "test"):
         (out_dir / "images" / split).mkdir(parents=True, exist_ok=True)
         (out_dir / "labels" / split).mkdir(parents=True, exist_ok=True)
 
     class_dirs = sorted([d for d in in_dir.iterdir() if d.is_dir()])
     if not class_dirs:
-        sys.exit(f"ERRO: nenhuma subpasta de classe em {in_dir}")
+        sys.exit(f"ERROR: no class subfolder in {in_dir}")
 
     rng = random.Random(args.seed)
     used_names = set()
@@ -191,7 +185,7 @@ def main():
         cls = cdir.name
         imgs = list_images(cdir)
         if not imgs:
-            log(f"AVISO: classe '{cls}' sem imagens; ignorada.")
+            log(f" WARNING: class '{cls}' has no images; ignored.")
             continue
         if cls not in NEGATIVE_CLASSES and cls not in found_incident_classes:
             found_incident_classes.append(cls)
@@ -223,15 +217,15 @@ def main():
     extras = [c for c in found_incident_classes if c not in CANONICAL_CLASSES]
     class_names = ordered + sorted(extras)
     if extras:
-        log(f"AVISO: classes fora da lista canônica adicionadas ao fim: {extras}")
+        log(f"NOTICE: classes outside the canonical list added at the end: {extras}")
     write_data_yaml(out_dir / "data.yaml", out_dir, class_names)
 
-    # proveniência
+    # provenience
     if args.provenance_csv:
         update_provenance(args.provenance_csv, basename_to_split, basename_to_newpath)
 
-    # resumo
-    log("\nResumo da divisão (imagens por classe):")
+    # sumary
+    log("\nSummary of the split (images per class):")
     log(f"{'classe':<22}{'train':>7}{'val':>6}{'test':>6}{'total':>7}")
     tot = {"train": 0, "val": 0, "test": 0}
     for cls in sorted(summary):
