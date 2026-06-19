@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-validate_dataset.py — Verifica a integridade do dataset YOLO do CCTV-SPCrime.
+validate_dataset.py — Check the integrity of the YOLO dataset from CCTV-SPCrime.
 
-Checagens:
-  1. data.yaml (lê nc e names)
-  2. imagens corrompidas / ilegíveis / truncadas
-  3. pareamento imagem <-> rótulo (rótulos órfãos; imagens sem rótulo = negativos)
-  4. rótulos malformados (linha != 5 campos, valores não numéricos)
-  5. class_id fora de [0, nc-1]
-  6. caixas fora de [0,1] (e, opcional, caixa que extrapola a imagem)
-  7. duplicatas entre splits (vazamento train/val/test) por nome e, opcional, por hash
+Checks:
+  1. data.yaml (read nc and names)
+  2. corrupted / unreadable / truncated images
+  3. image <-> label pairing (orphan labels; images without labels = negatives)
+  4. malformed labels (line != 5 fields, non-numeric values)
+  5. class_id out of [0, nc-1]
+  6. boxes outside of [0,1] (and, optionally, boxes that go beyond the image)
+  7. duplicates between splits (train/val/test leakage) by name and, optionally, by hash
 
-Sai com código != 0 se houver ERROS (útil para CI). AVISOS não falham.
+Exits with code != 0 if there are ERRORS (useful for CI). WARNINGS don't fail.
 
-USO
+Use
     python validate_dataset.py --dataset-dir dataset
     python validate_dataset.py --dataset-dir dataset --check-hash --report relatorio.txt
 --------------------------------------------------------------------------------
@@ -30,7 +30,7 @@ from pathlib import Path
 IMG_EXT = (".jpg", ".jpeg", ".png", ".bmp")
 SPLITS = ("train", "val", "test")
 
-# leitor de imagem opcional (PIL preferido; senão OpenCV; senão pula a checagem)
+# optional image reader (PIL preferred; if not, OpenCV; if not, skip the check)
 _READER = None
 try:
     from PIL import Image
@@ -44,7 +44,7 @@ except ImportError:
 
 
 def parse_data_yaml(path):
-    """Parser mínimo: extrai nc e names (formato '  0: nome' ou '  - nome')."""
+    """Minimal parser: extracts nc and names (format ' 0: name' or ' - name')."""
     nc, names = None, []
     if not Path(path).exists():
         return nc, names
@@ -74,11 +74,11 @@ def parse_data_yaml(path):
 
 
 def read_image_dims(path):
-    """Retorna (w, h) ou None se corrompida/ilegível. None de _READER => pula."""
+    """Returns (w, h) or None if corrupted/unreadable. None from _READER => skip."""
     if _READER == "pil":
         try:
             with Image.open(path) as im:
-                im.verify()              # detecta truncamento/corrupção
+                im.verify()              # detects truncation/corruption
             with Image.open(path) as im:
                 return im.size           # (w, h)
         except Exception:
@@ -89,18 +89,18 @@ def read_image_dims(path):
             return None
         h, w = img.shape[:2]
         return (w, h)
-    return (0, 0)  # sem leitor: não valida pixels, assume legível
+    return (0, 0)  # without reader: doesn't validate pixels, assumes readable
 
 
 def validate_label_file(path, nc):
-    """Retorna (n_objs, per_class_counts, errors, warnings)."""
+    """Returns (n_objs, per_class_counts, errors, warnings)."""
     errors, warnings = [], []
     per_class = defaultdict(int)
     n_objs = 0
     try:
         lines = Path(path).read_text(encoding="utf-8").splitlines()
     except Exception as e:
-        return 0, per_class, [f"{path}: erro ao ler ({e})"], warnings
+        return 0, per_class, [f"{path}: error reading ({e})"], warnings
 
     for ln, raw in enumerate(lines, 1):
         s = raw.strip()
@@ -108,26 +108,26 @@ def validate_label_file(path, nc):
             continue
         parts = s.split()
         if len(parts) != 5:
-            errors.append(f"{path}:{ln}: esperados 5 campos, achei {len(parts)}")
+            errors.append(f"{path}:{ln}: expected 5 fields, I found {len(parts)}")
             continue
         try:
             cls = int(float(parts[0]))
             x, y, w, h = (float(v) for v in parts[1:])
         except ValueError:
-            errors.append(f"{path}:{ln}: valores não numéricos")
+            errors.append(f"{path}:{ln}: non-numeric values")
             continue
 
         if nc is not None and not (0 <= cls < nc):
-            errors.append(f"{path}:{ln}: class_id {cls} fora de [0,{nc-1}]")
+            errors.append(f"{path}:{ln}: class_id {cls} out of [0,{nc-1}]")
         for nm, v in (("x", x), ("y", y), ("w", w), ("h", h)):
             if not (0.0 <= v <= 1.0):
-                errors.append(f"{path}:{ln}: {nm}={v} fora de [0,1]")
+                errors.append(f"{path}:{ln}: {nm}={v} out of [0,1]")
         if w <= 0 or h <= 0:
-            errors.append(f"{path}:{ln}: largura/altura não-positiva (w={w}, h={h})")
-        # caixa extrapolando a imagem (aviso)
+            errors.append(f"{path}:{ln}: non-positive width/height (w={w}, h={h})")
+        # box overflowing the image (warning)
         if x - w / 2 < -1e-6 or x + w / 2 > 1 + 1e-6 or \
            y - h / 2 < -1e-6 or y + h / 2 > 1 + 1e-6:
-            warnings.append(f"{path}:{ln}: caixa extrapola os limites da imagem")
+            warnings.append(f"{path}:{ln}: box goes beyond the image limits")
         per_class[cls] += 1
         n_objs += 1
     return n_objs, per_class, errors, warnings
@@ -142,29 +142,29 @@ def file_hash(path):
 
 
 def main():
-    ap = argparse.ArgumentParser(description="Valida a integridade do dataset YOLO.")
-    ap.add_argument("--dataset-dir", default="dataset", help="raiz com data.yaml, images/, labels/")
+    ap = argparse.ArgumentParser(description="Validates the integrity of the YOLO dataset.")
+    ap.add_argument("--dataset-dir", default="dataset", help="root with data.yaml, images/, labels/")
     ap.add_argument("--check-hash", action="store_true",
-                    help="também detecta duplicatas de CONTEÚDO entre splits (mais lento)")
-    ap.add_argument("--report", help="salva o relatório em arquivo de texto")
+                    help="also detects CONTENT duplicates between splits (slower)")
+    ap.add_argument("--report", help="save the report as a text file")
     args = ap.parse_args()
 
     root = Path(args.dataset_dir)
     if not root.is_dir():
-        sys.exit(f"ERRO: pasta não encontrada: {root}")
+        sys.exit(f"ERROR: folder not found: {root}")
 
     errors, warnings, info = [], [], []
     nc, names = parse_data_yaml(root / "data.yaml")
     if nc is None:
-        warnings.append("data.yaml ausente ou sem 'nc'/'names'; validação de classe limitada.")
+        warnings.append("data.yaml absent or without 'nc'/'names'; limited class validation.")
     else:
         info.append(f"data.yaml: nc={nc}, names={names}")
     if _READER is None:
-        warnings.append("PIL/OpenCV não instalados; checagem de imagens corrompidas pulada "
+        warnings.append("PIL/OpenCV not installed; corrupted image check skipped "
                         "(pip install pillow).")
 
-    name_to_splits = defaultdict(list)     # basename -> [splits] (vazamento por nome)
-    hash_to_items = defaultdict(list)      # hash -> [(split, name)] (vazamento por conteúdo)
+    name_to_splits = defaultdict(list)     # basename -> [splits] (name leak)
+    hash_to_items = defaultdict(list)      # hash -> [(split, name)] (content leak)
     totals = {s: {"images": 0, "labels": 0, "objects": 0, "negatives": 0} for s in SPLITS}
     per_class_total = defaultdict(int)
 
@@ -172,7 +172,7 @@ def main():
         img_dir = root / "images" / split
         lbl_dir = root / "labels" / split
         if not img_dir.is_dir():
-            warnings.append(f"split '{split}' sem pasta de imagens; ignorado.")
+            warnings.append(f"split '{split}' no image folder; ignored.")
             continue
 
         images = [p for p in img_dir.iterdir() if p.suffix.lower() in IMG_EXT]
@@ -183,24 +183,24 @@ def main():
         totals[split]["images"] = len(images)
         totals[split]["labels"] = len(label_files)
 
-        # imagens corrompidas + vazamento
+        # corrupted images + leak
         for img in images:
             dims = read_image_dims(img)
             if dims is None:
-                errors.append(f"imagem corrompida/ilegível: {img}")
+                errors.append(f"corrupted/unreadable image: {img}")
             name_to_splits[img.name].append(split)
             if args.check_hash and dims is not None:
                 hash_to_items[file_hash(img)].append((split, img.name))
 
-        # rótulos órfãos (label sem imagem) = ERRO
+        # orphan labels (label without image) = ERROR
         for st in lbl_stems - img_stems:
-            errors.append(f"rótulo órfão (sem imagem): {split}/labels/{st}.txt")
+            errors.append(f"orphan label (no image): {split}/labels/{st}.txt")
 
-        # imagens sem rótulo = negativos (AVISO/INFO)
+        # images without labels = negatives (NOTICE/INFO)
         n_neg = len(img_stems - lbl_stems)
         totals[split]["negatives"] = n_neg
 
-        # valida cada rótulo existente que tem imagem
+        # validates each existing label that has an image
         for lf in label_files:
             if lf.stem not in img_stems:
                 continue
@@ -211,11 +211,11 @@ def main():
             for c, n in per_class.items():
                 per_class_total[c] += n
 
-    # vazamento por nome entre splits
+    # leak by name between splits
     for name, splits in name_to_splits.items():
         uniq = sorted(set(splits))
         if len(uniq) > 1:
-            errors.append(f"VAZAMENTO: '{name}' aparece em múltiplos splits: {uniq}")
+            errors.append(f"LEAK: '{name}' appears in multiple splits: {uniq}")
 
     # vazamento por conteúdo (hash)
     if args.check_hash:
@@ -223,45 +223,45 @@ def main():
             splits = sorted({s for s, _ in items})
             if len(splits) > 1:
                 names_list = ", ".join(f"{s}/{n}" for s, n in items)
-                errors.append(f"VAZAMENTO (conteúdo idêntico) entre {splits}: {names_list}")
+                errors.append(f"LEAK (identical content) between {splits}: {names_list}")
 
-    # ---------------- relatório ----------------
+    # ---------------- report ----------------
     out = []
     out.append("=" * 64)
-    out.append("RELATÓRIO DE VALIDAÇÃO — CCTV-SPCrime")
+    out.append("VALIDATION REPORT — CCTV-SPCrime")
     out.append("=" * 64)
     for i in info:
         out.append(f"[info] {i}")
     out.append("")
-    out.append(f"{'split':<8}{'imagens':>9}{'rótulos':>9}{'objetos':>9}{'negativos':>11}")
+    out.append(f"{'split':<8}{'images':>9}{'labels':>9}{'objects':>9}{'negatives':>11}")
     for s in SPLITS:
         t = totals[s]
         out.append(f"{s:<8}{t['images']:>9}{t['labels']:>9}{t['objects']:>9}{t['negatives']:>11}")
     if per_class_total:
         out.append("")
-        out.append("Objetos por class_id:")
+        out.append("Objects by class_id:")
         for c in sorted(per_class_total):
             label = names[c] if names and 0 <= c < len(names) else "?"
             out.append(f"  {c} ({label}): {per_class_total[c]}")
     out.append("")
-    out.append(f"AVISOS: {len(warnings)}")
+    out.append(f"WARNING: {len(warnings)}")
     for w in warnings[:50]:
-        out.append(f"  [aviso] {w}")
+        out.append(f"  [WARNING] {w}")
     if len(warnings) > 50:
-        out.append(f"  ... (+{len(warnings)-50} avisos)")
+        out.append(f"  ... (+{len(warnings)-50} notic)")
     out.append("")
-    out.append(f"ERROS: {len(errors)}")
+    out.append(f"ERRORS: {len(errors)}")
     for e in errors[:100]:
-        out.append(f"  [ERRO] {e}")
+        out.append(f"  [ERROR] {e}")
     if len(errors) > 100:
         out.append(f"  ... (+{len(errors)-100} erros)")
     out.append("")
-    out.append("RESULTADO: " + ("FALHOU ❌" if errors else "PASSOU ✅"))
+    out.append("RESULT: " + ("FAIL ❌" if errors else "PASSED ✅"))
     report = "\n".join(out)
     print(report)
     if args.report:
         Path(args.report).write_text(report + "\n", encoding="utf-8")
-        print(f"\nRelatório salvo em: {args.report}")
+        print(f"\nReport saved in: {args.report}")
 
     sys.exit(1 if errors else 0)
 
