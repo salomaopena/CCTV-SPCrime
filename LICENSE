@@ -1,0 +1,50 @@
+CCTV-SPCrime Dataset — License
+==============================
+
+SPDX-License-Identifier: CC-BY-4.0
+
+This dataset (the "CCTV-SPCrime" dataset, including images, annotations, and
+documentation produced by the authors) is licensed under the
+
+  Creative Commons Attribution 4.0 International License (CC BY 4.0):
+
+- Human-readable summary: https://creativecommons.org/licenses/by/4.0
+- Full legal code:        https://creativecommons.org/licenses/by/4.0/legalcode
+
+You are free to share and adapt the material for any purpose, even commercially,
+provided you give appropriate credit, provide a link to the license, and indicate
+if changes were made.
+
+How to attribute
+----------------
+
+Please cite the dataset using the data paper (see CITATION.cff):
+
+    Pena, S. B. N.; Souza, J. R.; Nomura, S. (2026). CCTV-SPCrime: a dataset and
+    an event-oriented annotation policy for public-safety incident detection in
+    surveillance images. [venue/DOI to be filled].
+
+Third-party components and provenance
+-------------------------------------
+
+This dataset aggregates material from multiple sources. Components incorporated
+from third parties REMAIN under their original licenses; the per-sample
+provenance and license of every item are recorded in `provenance/`:
+
+- Components released under CC0 / public domain or permissive licenses
+    (e.g., MIT) are redistributed here under their original terms.
+- Components released under CC BY require attribution to their original
+    authors (recorded in `provenance/`).
+- Sources with non-derivative (ND) or non-commercial-incompatible terms,
+    or whose redistribution rights are unclear, were EXCLUDED from this dataset
+    (used, if at all, only as external benchmarks — see the project documentation).
+
+Why CC BY 4.0 (and not CC0)
+---------------------------
+
+Because the dataset includes components licensed under CC BY (which require
+attribution), the aggregate is released under CC BY 4.0 for license
+compatibility: CC0 would be appropriate ONLY if every included component were
+CC0, public domain, or authored solely by the dataset creators. If you build a
+variant restricted exclusively to CC0/public-domain/own data, you may instead
+release that variant under CC0 1.0 (SPDX: CC0-1.0).

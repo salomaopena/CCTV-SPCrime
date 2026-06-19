@@ -2,7 +2,7 @@
 
 **Conjunto de dados de imagens de vigilância anotado segundo uma política orientada a eventos, para a detecção de incidentes de segurança pública.**
 
-[![DOI](https://img.shields.io/badge/DOI-A%20PREENCHER-blue)]() [![License](https://img.shields.io/badge/license-A%20PREENCHER-green)]() [![Version](https://img.shields.io/badge/version-1.0.0-informational)]()
+[![DOI](https://img.shields.io/badge/DOI-A%20PREENCHER-blue)]() [![License](https://img.shields.io/badge/license-CC%BY%4.0)]() [![Version](https://img.shields.io/badge/version-1.0.0-informational)]()
 
 > **Documentação:** este repositório segue normas internacionais de documentação de dados — ver o [DATASHEET.md](DATASHEET.md) (Datasheets for Datasets, Gebru et al.) e o [CITATION.cff](CITATION.cff). O conjunto adere aos princípios **FAIR** (Findable, Accessible, Interoperable, Reusable).
 
@@ -36,12 +36,12 @@ O **CCTV-SPCrime** é um conjunto de dados de imagens estáticas extraídas de c
 
 ## Estrutura do repositório
 
-``
+``` 
 CCTV-SPCrime/
 ├── README.md                 # este arquivo
 ├── DATASHEET.md              # datasheet (Gebru et al.)
 ├── CITATION.cff              # metadados de citação
-├── LICENSE                   # licença do conjunto [A PREENCHER]
+├── LICENSE                   # licença do conjunto CC-BY-4
 ├── data.yaml                 # configuração YOLO (classes + caminhos)
 ├── images/
 │   ├── train/  val/  test/   # imagens .jpg
@@ -50,7 +50,7 @@ CCTV-SPCrime/
 ├── attributes/               # atributos de evento por imagem (.json)
 ├── annotation_guidelines/    # diretrizes de anotação e exemplos
 └── provenance/               # proveniência e licença por amostra (.csv)
-``
+```
 
 ## Formato de anotação
 
@@ -59,7 +59,7 @@ Cada imagem `images/<split>/<id>.jpg` possui:
 1. **Rótulo espacial (YOLO):** `labels/<split>/<id>.txt`, uma linha por objeto:
    `<class_id> <x_center> <y_center> <width> <height>` (coordenadas normalizadas [0,1]).
 2. **Atributos de evento:** `attributes/<id>.json`, segundo os quatro pilares da política:
-   ``
+   ```
    json
    {
      "image_id": "<id>",
@@ -73,7 +73,7 @@ Cada imagem `images/<split>/<id>.jpg` possui:
      "attributes": { "weapon_present": false, "theft": false },
      "source": "<fonte>", "license": "<licença_origem>"
    }
-   ``
+   ```
 
 O mapeamento `class_id → nome` está em `data.yaml`. As diretrizes completas (definições, fronteiras e exemplos positivos/negativos por classe) estão em `annotation_guidelines/`.
 

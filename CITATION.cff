@@ -1,0 +1,47 @@
+cff-version: 1.2.0
+message: "Se você utilizar este conjunto de dados, por favor cite-o conforme os metadados abaixo."
+title: "CCTV-SPCrime: conjunto de dados e política de anotação orientada a eventos para detecção de incidentes de segurança pública em imagens de vigilância"
+abstract: >-
+  Conjunto de dados de imagens estáticas de videovigilância anotado segundo uma
+  política orientada a eventos, abrangendo oito classes de incidentes de segurança
+  pública (acidente, comportamento suspeito, crime, incêndio, intrusão, objeto
+  suspeito, queda e vandalismo), com rótulos no formato YOLO e atributos de evento.
+type: dataset
+authors:
+  - given-names: "Salomão Bento Nilo"
+    family-names: "Pena"
+    affiliation: "Faculdade de Computação (FACOM), Universidade Federal de Uberlândia"
+    email: "salomao.pena@ufu.br"
+    # orcid: "https://orcid.org/A-PREENCHER"
+  - given-names: "Jefferson R."
+    family-names: "Souza"
+    affiliation: "Faculdade de Computação (FACOM), Universidade Federal de Uberlândia"
+    email: "jrsouza@ufu.br"
+  - given-names: "Shigueo"
+    family-names: "Nomura"
+    affiliation: "Faculdade de Computação (FACOM), Universidade Federal de Uberlândia"
+    email: "shigueonomura@ufu.br"
+version: "1.0.0"
+date-released: "A-PREENCHER"        # formato AAAA-MM-DD
+license: "A-PREENCHER"              # ex.: CC-BY-4.0
+url: "A-PREENCHER"                  # URL do repositório
+doi: "A-PREENCHER"                  # DOI do depósito arquivado (Zenodo/Mendeley/Figshare)
+keywords:
+  - "conjunto de dados"
+  - "anotação orientada a eventos"
+  - "detecção de incidentes"
+  - "videovigilância"
+  - "segurança pública"
+  - "visão computacional"
+preferred-citation:
+  type: article                    # ou conference-paper, conforme o veículo
+  title: "CCTV-SPCrime: um conjunto de dados e uma política de anotação orientada a eventos para a detecção de incidentes de segurança pública em imagens de vigilância"
+  authors:
+    - given-names: "Salomão Bento Nilo"
+      family-names: "Pena"
+    - given-names: "Jefferson R."
+      family-names: "Souza"
+    - given-names: "Shigueo"
+      family-names: "Nomura"
+  year: 2026
+  # journal/conference, volume, doi: A-PREENCHER
