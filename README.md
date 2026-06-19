@@ -2,7 +2,7 @@
 
 **Conjunto de dados de imagens de vigilância anotado segundo uma política orientada a eventos, para a detecção de incidentes de segurança pública.**
 
-[![DOI](https://img.shields.io/badge/DOI-A%20PREENCHER-blue)]() [![License](https://img.shields.io/badge/license-CC%BY%4.0)]() [![Version](https://img.shields.io/badge/version-1.0.0-informational)]()
+[![DOI](https://img.shields.io/badge/DOI-A%20PREENCHER-blue)](./CITATION.cff) [![License](https://img.shields.io/badge/license-CC%20BY%204.0-orange)](./LICENSE) [![Version](https://img.shields.io/badge/version-1.0.0-informational)](./CHANGELOG.md)
 
 > **Documentação:** este repositório segue normas internacionais de documentação de dados — ver o [DATASHEET.md](DATASHEET.md) (Datasheets for Datasets, Gebru et al.) e o [CITATION.cff](CITATION.cff). O conjunto adere aos princípios **FAIR** (Findable, Accessible, Interoperable, Reusable).
 
