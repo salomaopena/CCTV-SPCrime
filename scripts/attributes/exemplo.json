@@ -1,0 +1,13 @@
+{
+  "image_id": "exemplo",
+  "incident_class": "fall",
+  "pillars": {
+    "object": ["pessoa"],
+    "action": ["cair", "permanecer"],
+    "environment": ["calçada pública"],
+    "normal_abnormal": "imóvel além do limiar (anormal)"
+  },
+  "attributes": { "prolonged": true, "context": "médico", "num_people": 1 },
+  "source": "proprio",
+  "license": "CC BY 4.0"
+}

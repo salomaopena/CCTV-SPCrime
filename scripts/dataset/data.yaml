@@ -1,0 +1,20 @@
+# Dataset YOLO - Salomão Pena (4042 imagens)
+# Divisão: 80% train (3234), 10% val (404), 10% test (404)
+
+# Caminho raiz do dataset
+path:   E:\Developer\CCTV-SPCrime\scripts\dataset
+
+train:  images/train    # 3234 imagens
+val:    images/val      # 404 imagens
+test:   images/test     # 404 imagens (opcional)
+
+nc: 8    # Número total de classes
+names:
+  0: accident
+  1: intrusion
+  2: vandalism
+  3: suspicious_object
+  4: suspicious_behavior
+  5: fire
+  6: fall
+  7: crime

@@ -1,0 +1,11 @@
+{
+  "image_id": "front_gate_accident",
+  "incident_class": "accident",
+  "pillars": {
+    "object": ["motorcycle", "truck"],
+    "action": ["collision"],
+    "environment": ["access gate", "public road"],
+    "normal_abnormal": "sudden impact | anormal"
+  },
+  "attributes": { "subtype": "vehicle", "victims_down": true, "num_people": 2 }
+}

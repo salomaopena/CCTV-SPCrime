@@ -73,12 +73,16 @@ def main():
             project=args.project, name=f"{tag}_test", exist_ok=True, verbose=False,
         )
         b = metrics.box
+        p = float(b.mp)
+        r = float(b.mr)
+        f1 = 2 * p * r / (p + r) if (p + r) > 0 else 0.0
         model_rows.append({
             "model": tag,
-            "mAP50": round(float(b.map50), 4),
-            "mAP50_95": round(float(b.map), 4),
-            "precision": round(float(b.mp), 4),
-            "recall": round(float(b.mr), 4),
+            "mAP50": round(float(b.map50), 2),
+            "mAP50_95": round(float(b.map), 2),
+            "precision": round(p, 2),
+            "recall": round(r, 2),
+            "F1": round(f1, 2),
         })
 
         # table by class only for the adopted model
@@ -88,6 +92,12 @@ def main():
             # P/R per class when available
             try:
                 p_c, r_c = list(b.p), list(b.r)
+                f1_c = []
+                for pi, ri in zip(p_c, r_c):
+                    if pi is None or ri is None or (pi + ri) == 0:
+                        f1_c.append("")
+                    else:
+                        f1_c.append(round(2 * pi * ri / (pi + ri), 2))
             except Exception:
                 p_c, r_c = [None] * len(maps), [None] * len(maps)
             for i, ap50_95 in enumerate(maps):
@@ -98,21 +108,23 @@ def main():
                     "class_id": i, "class": cname,
                     "precision": round(p_c[i], 4) if i < len(p_c) and p_c[i] is not None else "",
                     "recall": round(r_c[i], 4) if i < len(r_c) and r_c[i] is not None else "",
+                    "F1": f1_c[i] if i < len(f1_c) else "",
                     "mAP50_95": round(float(ap50_95), 4),
                 })
 
     # save results
     with open(args.out_models, "w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=["model", "mAP50", "mAP50_95", "precision", "recall"])
+        w = csv.DictWriter(f, fieldnames=["model", "mAP50", "mAP50_95", "precision", "recall", "F1"])
         w.writeheader(); w.writerows(model_rows)
+    
     with open(args.out_perclass, "w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=["class_id", "class", "precision", "recall", "mAP50_95"])
+        w = csv.DictWriter(f, fieldnames=["class_id", "class", "precision", "recall", "F1","mAP50_95"])
         w.writeheader(); w.writerows(perclass_rows)
 
-    print("\n=== TABLE IV (comparison of models) ===")
-    print(f"{'model':<12}{'mAP50':>8}{'mAP50-95':>10}{'P':>8}{'R':>8}")
+    print("\n=== comparison of models ===")
+    print(f"{'model':<12}{'mAP50':>8}{'mAP50-95':>10}{'P':>8}{'R':>8}{'F1':>8}")
     for r in model_rows:
-        print(f"{r['model']:<12}{r['mAP50']:>8}{r['mAP50_95']:>10}{r['precision']:>8}{r['recall']:>8}")
+        print(f"{r['model']:<12}{r['mAP50']:>8}{r['mAP50_95']:>10}{r['precision']:>8}{r['recall']:>8}{r['F1']:>8}")
     print(f"\nFiles: {args.out_models}, {args.out_perclass}")
     print(f"Hyperparameters (for reproducibility): {HP}, epochs={args.epochs}, "
           f"batch={args.batch}, seed={args.seed}, conf_report={CONF_REPORT}")

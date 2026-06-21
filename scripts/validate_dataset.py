@@ -27,6 +27,7 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
+
 IMG_EXT = (".jpg", ".jpeg", ".png", ".bmp")
 SPLITS = ("train", "val", "test")
 
@@ -143,7 +144,7 @@ def file_hash(path):
 
 def main():
     ap = argparse.ArgumentParser(description="Validates the integrity of the YOLO dataset.")
-    ap.add_argument("--dataset-dir", default="dataset", help="root with data.yaml, images/, labels/")
+    ap.add_argument("--dataset-dir", default="data.yaml", help="root with data.yaml, images/, labels/")
     ap.add_argument("--check-hash", action="store_true",
                     help="also detects CONTENT duplicates between splits (slower)")
     ap.add_argument("--report", help="save the report as a text file")
