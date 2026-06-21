@@ -1,5 +1,7 @@
-scrips/*
+/scrips/dataset/*
 /videos/*
+/annotation_guidelines/*
+
 AIVIS_GCUB_Ajustado_PT.md
 BRACIS_Revisado_DataPaper_PT.md
 Makefile
@@ -9,3 +11,6 @@ requirements.txt
 video_annotation_policy.md
 cvat_video_guide.md
 class_guidelines.md
+make_annotation_figure.py
+compute_kappa.py
+concordancia_exemplo.csv

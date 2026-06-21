@@ -81,9 +81,9 @@ O mapeamento `class_id → nome` está em `data.yaml`. As diretrizes completas (
 
 | Arquivo | Conteúdo |
 |---|---|
-| [`class_guidelines.md`](class_guidelines.md) | **Diretrizes por classe** (imagem): definições, fronteiras, exemplos positivos/negativos, os 4 pilares, tabela de confusões e o controle de qualidade (kappa + IoU). |
-| [`video_annotation_policy.md`](video_annotation_policy.md) | Política de anotação da **extensão em vídeo** (análise semântico-temporal; três camadas). |
-| [`cvat_video_guide.md`](cvat_video_guide.md) | Guia operacional do **CVAT** para a extensão em vídeo. |
+| [`class_guidelines.md`](annotation_guidelines/class_guidelines.md) | **Diretrizes por classe** (imagem): definições, fronteiras, exemplos positivos/negativos, os 4 pilares, tabela de confusões e o controle de qualidade (kappa + IoU). |
+| [`video_annotation_policy.md`](annotation_guidelines/video_annotation_policy.md) | Política de anotação da **extensão em vídeo** (análise semântico-temporal; três camadas). |
+| [`cvat_video_guide.md`](annotation_guidelines/cvat_video_guide.md) | Guia operacional do **CVAT** para a extensão em vídeo. |
 
 Para o conjunto principal (imagem, v1.0), a referência é o `class_guidelines.md`.
 Os dois últimos documentos cobrem o *roadmap* de vídeo (v2.0).
