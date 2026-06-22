@@ -97,7 +97,7 @@ Anotação na ferramenta **CVAT v2.54.0**, segundo a **política orientada a eve
 - **Nº de anotadores:** 3;
 - **Diretrizes:** definições, fronteiras e exemplos por classe (em `annotation_guidelines/`);
 - **Resolução de divergências:** critério consenso`;
-- **Concordância inter-anotadores:** `[A PREENCHER: kappa de Cohen/Fleiss sobre subconjunto de N imagens]`.
+- **Concordância inter-anotadores:** `0.72: kappa de Cohen/Fleiss sobre subconjunto de 2.982 imagens`.
 
 ## 5. Usos
 
@@ -116,21 +116,21 @@ Recomenda-se supervisão humana, avaliação de viés por classe e cenário, e c
 ## 6. Distribuição
 
 **Como o conjunto será distribuído?**
-Via **GitHub** e, recomendadamente, um repositório arquivado com **DOI** (Zenodo, Mendeley Data ou Figshare). `[A PREENCHER: URL e DOI]`
+Via **GitHub** e, recomendadamente, um repositório arquivado com **DOI**. `https://github.com/salomaopena/CCTV-SPCrime and https://doi.org/10.5281/zenodo.20801289`
 
 **Sob qual licença?**
-`[A PREENCHER: CC BY 4.0 ou CC0]`, respeitadas as licenças das fontes públicas mantidas.
+`CC BY 4.0`, respeitadas as licenças das fontes públicas mantidas.
 
 **Há restrições de uso ou de exportação?**
 Nenhuma além da licença escolhida e das licenças de origem registradas na proveniência; fontes com cláusula de não-derivação foram excluídas.
 
 **Quando será distribuído?**
-`[A PREENCHER: data de publicação da versão 1.0.0]`.
+`Versão 1.0.0`.
 
 ## 7. Manutenção
 
 **Quem mantém o conjunto?**
-`[A PREENCHER: nome e e-mail institucional do mantenedor]` — FACOM/UFU.
+`salomao.pena@ufu.br` — FACOM/UFU | `salomao.pena@isced-huila.edu.ao` ISCED-Huíla.
 
 **Como reportar erros ou contribuir?**
 Por *issues* e *pull requests* no repositório.
@@ -139,7 +139,7 @@ Por *issues* e *pull requests* no repositório.
 Sim. Roadmap: extensão para **vídeo** com anotação temporal (três camadas). Atualizações seguem **versionamento semântico** e são registradas no CHANGELOG.
 
 **Versões antigas serão mantidas?**
-`[A PREENCHER: política de retenção de versões]`.
+`Sim: política de retenção de versões`.
 
 **Há mecanismo para contribuições externas?**
 Sim, via *pull requests*, sujeitas à revisão de qualidade segundo as diretrizes de anotação.

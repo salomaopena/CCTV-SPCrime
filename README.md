@@ -36,7 +36,7 @@
 
 ## Repository structure
 
-``` 
+```
 CCTV-SPCrime/
 ├── README.md                 # this file
 ├── DATASHEET.md              # datasheet (Gebru et al.)

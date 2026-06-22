@@ -1,9 +1,9 @@
 # Changelog
 
-Todas as mudanças notáveis deste projeto serão documentadas aqui.
+All the notable changes in this project will be documented here.
 
 ## [1.1.0] - 2026-06-01
 
-### Criado o projeto
+### Project created
 
-- Criado o projeto com o initial commit.
+- Project created with the initial commit.
