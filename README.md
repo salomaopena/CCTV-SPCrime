@@ -127,8 +127,8 @@ Correções de anotação e relatos de problemas são bem-vindos via *issues* e 
 
 ## Contato
 
-> Salomão Pena | Universidade Federal de Uberlândia — FACOM/UFU.
-> Salomão Pena | Instituto Superior de Ciências da Educação da Huíla
+- Salomão Pena | Universidade Federal de Uberlândia — FACOM/UFU.
+- Salomão Pena | Instituto Superior de Ciências da Educação da Huíla
 
 ---
 
