@@ -24,12 +24,11 @@ license: "CC-BY-4.0"              # ex.: CC-BY-4.0
 url: "https://github.com/salomaopena/CCTV-SPCrime"                  # URL of repository
 doi: "https://doi.org/10.5281/zenodo.20801289"                  # DOI 
 keywords:
-  - "conjunto de dados"
-  - "anotação orientada a eventos"
-  - "detecção de incidentes"
-  - "videovigilância"
-  - "segurança pública"
-  - "visão computacional"
+  - "dataset"
+  - "event-driven annotation"
+  - "incident detection"
+  - "video surveillance"
+  - "public security"
 preferred-citation:
   type: article                    
   title: "CCTV-SPCrime: um conjunto de dados e uma política de anotação orientada a eventos para a detecção de incidentes de segurança pública em imagens de vigilância"
@@ -41,4 +40,4 @@ preferred-citation:
     - given-names: "Shigueo"
       family-names: "Nomura"
   year: 2026
-  #journal/conference, volume, doi: A-PREENCHER
+  #journal/conference, volume, doi: "https://doi.org/10.5281/zenodo.20801289" 
