@@ -18,7 +18,7 @@ DEPENDENCIES
 Use
     python train_benchmark.py --data dataset/data.yaml \
         --models yolov8n.pt yolo11n.pt yolo26n.pt \
-        --primary yolo26n.pt --epochs 100 --batch 16 --seed 0
+        --primary yolo26n.pt --epochs 100 --batch 32 --seed 0
 --------------------------------------------------------------------------------
 """
 
@@ -41,7 +41,7 @@ def main():
     ap.add_argument("--primary", default="yolo26n.pt",
                     help="adopted model (generates the table by class)")
     ap.add_argument("--epochs", type=int, default=100)
-    ap.add_argument("--batch", type=int, default=16)
+    ap.add_argument("--batch", type=int, default=32)
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--project", default="runs_benchmark")
     ap.add_argument("--out-models", default="results_models.csv")

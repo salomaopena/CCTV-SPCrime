@@ -23,14 +23,14 @@ O **CCTV-SPCrime** é um conjunto de dados de imagens estáticas extraídas de c
 
 | Classe | Descrição resumida | Treino | Validação | Teste | Total |
 |---|---|---|---|---|---|
-| accident | colisões, quedas em massa, emergências médicas visíveis | `[A PREENCHER]` | `[A PREENCHER]` | `[A PREENCHER]` | `[A PREENCHER]` |
-| suspicious_behavior | movimentos atípicos, fuga, perseguição | `[A PREENCHER]` | `[A PREENCHER]` | `[A PREENCHER]` | `[A PREENCHER]` |
-| crime | violência física ou subtração de bens (com atributos) | `[A PREENCHER]` | `[A PREENCHER]` | `[A PREENCHER]` | `[A PREENCHER]` |
-| fire | fogo, fumaça, chamas | `[A PREENCHER]` | `[A PREENCHER]` | `[A PREENCHER]` | `[A PREENCHER]` |
-| intrusion | transposição de perímetro/áreas proibidas | `[A PREENCHER]` | `[A PREENCHER]` | `[A PREENCHER]` | `[A PREENCHER]` |
-| suspicious_object | objetos abandonados, armas | `[A PREENCHER]` | `[A PREENCHER]` | `[A PREENCHER]` | `[A PREENCHER]` |
-| fall | pessoa caída em postura anômala | `[A PREENCHER]` | `[A PREENCHER]` | `[A PREENCHER]` | `[A PREENCHER]` |
-| vandalism | danos à propriedade | `[A PREENCHER]` | `[A PREENCHER]` | `[A PREENCHER]` | `[A PREENCHER]` |
+| accident | colisões, quedas em massa, emergências médicas visíveis | `400` | `50` | `50` | `500` |
+| suspicious_behavior | movimentos atípicos, fuga, perseguição | `404` | `51` | `51` | `506` |
+| crime | violência física ou subtração de bens (com atributos) | `455` | `57` | `57` | `569` |
+| fire | fogo, fumaça, chamas | `420` | `53` | `53` | `524` |
+| intrusion | transposição de perímetro/áreas proibidas | `426` | `50` | `50` | `532` |
+| suspicious_object | objetos abandonados, armas | `400` | `50` | `50` | `500` |
+| fall | pessoa caída em postura anômala | `326` | `41` | `41` | `408` |
+| vandalism | danos à propriedade | `403` | `50` | `50` | `503` |
 
 > Os números devem ser preenchidos após a recontagem (ver [Proveniência e licenças](#proveniência-e-licenças)).
 
@@ -94,7 +94,7 @@ Os dois últimos documentos cobrem o *roadmap* de vídeo (v2.0).
 # Treino com Ultralytics YOLO (exemplo)
 from ultralytics import YOLO
 model = YOLO("yolo26n.pt")           # ou yolov8n.pt / yolo11n.pt
-model.train(data="data.yaml", imgsz=640, epochs=100, batch=16, seed=0)
+model.train(data="data.yaml", imgsz=640, epochs=100, batch=32, seed=0)
 metrics = model.val(split="test")    # avaliação no conjunto de teste
 ```
 
