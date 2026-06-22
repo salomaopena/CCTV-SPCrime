@@ -1,66 +1,65 @@
 # CCTV-SPCrime
 
-**Conjunto de dados de imagens de vigilância anotado segundo uma política orientada a eventos, para a detecção de incidentes de segurança pública.**
+**Dataset of surveillance images annotated according to an event-driven policy, for detecting public safety incidents.**
 
-[![DOI](https://img.shields.io/badge/DOI-A%20PREENCHER-blue)](./CITATION.cff) [![License](https://img.shields.io/badge/license-CC%20BY%204.0-orange)](./LICENSE) [![Version](https://img.shields.io/badge/version-1.0.0-informational)](./CHANGELOG.md)
+[![DOI](https://img.shields.io/badge/DOI-https://doi.org/10.5281/zenodo.20801289)](./CITATION.cff) [![License](https://img.shields.io/badge/license-CC%20BY%204.0-orange)](./LICENSE) [![Version](https://img.shields.io/badge/version-1.0.0-informational)](./CHANGELOG.md)
 
-> **Documentação:** este repositório segue normas internacionais de documentação de dados — ver o [DATASHEET.md](DATASHEET.md) (Datasheets for Datasets, Gebru et al.) e o [CITATION.cff](CITATION.cff). O conjunto adere aos princípios **FAIR** (Findable, Accessible, Interoperable, Reusable).
+> **Documentation:** this repository follows international data documentation standards — see the [DATASHEET.md](DATASHEET.md) (Datasheets for Datasets, Gebru et al.) and the [CITATION.cff](CITATION.cff). The dataset adheres to the **FAIR** principles (Findable, Accessible, Interoperable, Reusable).
 
 ---
 
-## Visão geral
+## Overview
 
-O **CCTV-SPCrime** é um conjunto de dados de imagens estáticas extraídas de cenários de videovigilância, anotadas para **oito classes de incidentes de segurança pública** segundo uma **política de anotação orientada a eventos** — na qual o incidente, e não o objeto isolado, é a unidade de anotação. Destina-se à **avaliação reprodutível** de modelos de detecção de incidentes.
+**CCTV-SPCrime** is a dataset of still images taken from surveillance scenarios, labeled for **eight types of public safety incidents** according to an **event-oriented annotation policy** — where the incident, not the individual object, is the unit of annotation. It's meant for **reproducible evaluation** of incident detection models.
 
-- **Modalidade:** imagens (frames) 640×640 px, rótulos no formato YOLO + atributos de evento.
-- **Classes (8):** acidente, comportamento suspeito, crime, incêndio, intrusão, objeto suspeito, queda, vandalismo.
-- **Divisão:** 80% treino / 10% validação / 10% teste.
-- **Total:** : 4.042 imagens.
-- **Licença:** CC BY 4.0.
-- **Trabalhos associados:** data paper (Pena et al., 2026) e arquitetura AIVIS.GCUB (Pena et al., 2026) — ver [Citação](#citação).
+- **Mode:** images (frames) 640×640 px, labels in YOLO format + event attributes.
+- **Classes (8):** accident, suspicious behavior, crime, fire, intrusion, suspicious object, fall, vandalism.
+- **Split:** 80% training / 10% validation / 10% testing.
+- **Total:** : 4.042 images.
+- **License:** CC BY 4.0.
+- **Associated works:** data paper (Pena et al., 2026) and AIVIS.GCUB architecture (Pena et al., 2026) — see [Citation](#citation).
 
-## Classes e distribuição
+## Classes and distribution
 
-| Classe | Descrição resumida | Treino | Validação | Teste | Total |
+| Class | Short description | Train | Validation | Test | Total |
 |---|---|---|---|---|---|
-| accident | colisões, quedas em massa, emergências médicas visíveis | `400` | `50` | `50` | `500` |
-| suspicious_behavior | movimentos atípicos, fuga, perseguição | `404` | `51` | `51` | `506` |
-| crime | violência física ou subtração de bens (com atributos) | `455` | `57` | `57` | `569` |
-| fire | fogo, fumaça, chamas | `420` | `53` | `53` | `524` |
-| intrusion | transposição de perímetro/áreas proibidas | `426` | `50` | `50` | `532` |
-| suspicious_object | objetos abandonados, armas | `400` | `50` | `50` | `500` |
-| fall | pessoa caída em postura anômala | `326` | `41` | `41` | `408` |
-| vandalism | danos à propriedade | `403` | `50` | `50` | `503` |
+| accident | collisions, mass falls, visible medical emergencies | `400` | `50` | `50` | `500` |
+| suspicious_behavior | atypical movements, escape, pursuit | `404` | `51` | `51` | `506` |
+| crime | physical violence or taking of goods (with attributes) | `455` | `57` | `57` | `569` |
+| fire | fire, smoke, flames | `420` | `53` | `53` | `524` |
+| intrusion | crossing perimeter/restricted areas | `426` | `50` | `50` | `532` |
+| suspicious_object | abandoned objects, weapons | `400` | `50` | `50` | `500` |
+| fall | person lying in an unusual position | `326` | `41` | `41` | `408` |
+| vandalism | property damage | `403` | `50` | `50` | `503` |
 
-> Os números devem ser preenchidos após a recontagem (ver [Proveniência e licenças](#proveniência-e-licenças)).
+> The numbers should be filled in after the recount (see [Provenance and licenses](#provenance-and-licenses)).
 
-## Estrutura do repositório
+## Repository structure
 
 ``` 
 CCTV-SPCrime/
-├── README.md                 # este arquivo
+├── README.md                 # this file
 ├── DATASHEET.md              # datasheet (Gebru et al.)
-├── CITATION.cff              # metadados de citação
-├── LICENSE                   # licença do conjunto CC-BY-4
-├── data.yaml                 # configuração YOLO (classes + caminhos)
+├── CITATION.cff              # citation metadata
+├── LICENSE                   # set license CC-BY-4
+├── data.yaml                 # YOLO setup (classes + paths)
 ├── images/
 │   ├── train/  val/  test/   # imagens .jpg
 ├── labels/
-│   ├── train/  val/  test/   # rótulos YOLO .txt (uma linha por objeto)
-├── attributes/               # atributos de evento por imagem (.json)
-├── annotation_guidelines/    # diretrizes de anotação e exemplos
-└── provenance/               # proveniência e licença por amostra (.csv)
+│   ├── train/  val/  test/   # YOLO labels .txt (one line per object)
+├── attributes/               # event attributes by image (.json)
+├── annotation_guidelines/    # annotation guidelines and examples
+└── provenance/               # origin and license by sample (.csv)
 ```
 
-## Formato de anotação
+## Annotation format
 
-Cada imagem `images/<split>/<id>.jpg` possui:
+Each image `images/<split>/<id>.jpg` has:
 
-1. **Rótulo espacial (YOLO):** `labels/<split>/<id>.txt`, uma linha por objeto:
-   `<class_id> <x_center> <y_center> <width> <height>` (coordenadas normalizadas [0,1]).
-2. **Atributos de evento:** `attributes/<id>.json`, segundo os quatro pilares da política:
-   ```
-   json
+1. **Spatial label (YOLO):** `labels/<split>/<id>.txt`, one line per object: `<class_id> <x_center> <y_center> <width> <height>` (coordinates normalized [0,1]).
+2. **Event attributes:** `attributes/<id>.json`, according to the four pillars of the policy:
+
+   ```json
    {
      "image_id": "<id>",
      "incident_class": "crime",
@@ -71,65 +70,62 @@ Cada imagem `images/<split>/<id>.jpg` possui:
        "normal_abnormal": "abnormal"
      },
      "attributes": { "weapon_present": false, "theft": false },
-     "source": "<fonte>", "license": "<licença_origem>"
+     "source": "<source>", "license": "<origin_license>"
    }
    ```
 
-O mapeamento `class_id → nome` está em `data.yaml`. As diretrizes completas (definições, fronteiras e exemplos positivos/negativos por classe) estão em `annotation_guidelines/`.
+The mapping `class_id → name` is in `data.yaml`. The full guidelines (definitions, boundaries, and positive/negative examples per class) are in `annotation_guidelines/`.
 
 ## annotation_guidelines
 
-| Arquivo | Conteúdo |
+| File | Content |
 |---|---|
-| [`class_guidelines.md`](annotation_guidelines/class_guidelines.md) | **Diretrizes por classe** (imagem): definições, fronteiras, exemplos positivos/negativos, os 4 pilares, tabela de confusões e o controle de qualidade (kappa + IoU). |
-| [`video_annotation_policy.md`](annotation_guidelines/video_annotation_policy.md) | Política de anotação da **extensão em vídeo** (análise semântico-temporal; três camadas). |
-| [`cvat_video_guide.md`](annotation_guidelines/cvat_video_guide.md) | Guia operacional do **CVAT** para a extensão em vídeo. |
+| [`class_guidelines.md`](annotation_guidelines/class_guidelines.md) | **Class guidelines** (image): definitions, boundaries, positive/negative examples, the 4 pillars, confusion table, and quality control (kappa + IoU). |
+| [`video_annotation_policy.md`](annotation_guidelines/video_annotation_policy.md) | Annotation policy for the **video extension** (semantic-temporal analysis; three layers). |
+| [`cvat_video_guide.md`](annotation_guidelines/cvat_video_guide.md) | Operational guide for **CVAT** for the video extension. |
 
-Para o conjunto principal (imagem, v1.0), a referência é o `class_guidelines.md`.
-Os dois últimos documentos cobrem o *roadmap* de vídeo (v2.0).
+For the main set (image, v1.0), the reference is `class_guidelines.md`. The last two documents cover the video roadmap (v2.0).
 
-## Uso rápido
+## Quick use
 
 ```python
-# Treino com Ultralytics YOLO (exemplo)
+# Training with Ultralytics YOLO (example)
 from ultralytics import YOLO
-model = YOLO("yolo26n.pt")           # ou yolov8n.pt / yolo11n.pt
+model = YOLO("yolo26n.pt")           # or yolov8n.pt / yolo11n.pt
 model.train(data="data.yaml", imgsz=640, epochs=100, batch=32, seed=0)
-metrics = model.val(split="test")    # avaliação no conjunto de teste
+metrics = model.val(split="test")    # evaluation on the test set
 ```
 
-## Proveniência e licenças
+## Provenance and licenses
 
-O conjunto combina **frames de origem própria** com amostras de repositórios públicos cujas licenças **permitem redistribuição/derivação**. A proveniência é registrada por amostra em `provenance/` (fonte, licença de origem, data).
+The set combines **original source frames** with samples from public repositories whose licenses **allow redistribution/derivation**. The provenance is recorded per sample in `provenance/` (source, original license, date.
 
-A licença do conjunto resultante é CC BY 4.0, respeitadas as licenças das fontes mantidas. Ver [LICENSE](LICENSE) e o [DATASHEET.md](DATASHEET.md).
+The license of the resulting set is CC BY 4.0, respecting the licenses of the retained sources. See [LICENSE](LICENSE) and [DATASHEET.md](DATASHEET.md).
 
-## Ética e privacidade (LGPD)
+## Ethics and privacy (GDPR)
 
-As imagens retratam pessoas em espaços públicos. Antes da publicação, aplica-se **anonimização** (desfoque de faces e placas) e não se retêm identificadores pessoais. O conjunto destina-se a **pesquisa**; não deve ser usado para identificar indivíduos nem para decisões automatizadas de alto risco sem supervisão humana e revisão ético-legal. Ver as seções *Uses* e *Collection Process* do [DATASHEET.md](DATASHEET.md).
+The images depict people in public spaces. Before publication, **anonymization** (blurring faces and license plates) is applied, and no personal identifiers are retained. The dataset is intended for **research**; it should not be used to identify individuals or for high-risk automated decisions without human oversight and ethical-legal review. See the *Uses* and *Collection Process* sections of the [DATASHEET.md](DATASHEET.md).
 
-## Versionamento e roadmap
+## Versioning and roadmap
 
-- **v1.0.0** — versão de imagens (detecção ao nível de imagem).
-- **Roadmap:** extensão para **vídeo** com anotação temporal em três camadas (espacial/rastreamento/evento) e avaliação por tIoU; reposição completa das fontes de licença restritiva.
+- **v1.0.0** — image version (image-level detection).
+- **Roadmap:** extension for **video** with time-stamped annotations in three layers (spatial/tracking/event) and evaluation by tIoU; full replacement of restrictive license sources.
 
-Mudanças são registradas em  [CHANGELOG.md](./CHANGELOG.md) e seguem versionamento semântico.
+Changes are recorded in [CHANGELOG.md](./CHANGELOG.md) and follow semantic versioning.
 
-## Citação
+## Citation
 
-Se utilizar este conjunto, cite o data paper (ver [CITATION.cff](CITATION.cff)):
+If you use this dataset, cite the data paper (see [CITATION.cff](CITATION.cff)):
 
-> Pena, S. B. N.; Souza, J. R.; Nomura, S. (2026). *CCTV-SPCrime: um conjunto de dados e uma política de anotação orientada a eventos para a detecção de incidentes de segurança pública em imagens de vigilância.* `[A PREENCHER: veículo e DOI]`
+> Pena, S. B. N.; Souza, J. R.; Nomura, S. (2026). *CCTV-SPCrime: An Event-Oriented Dataset for Public Safety Incident Detection.* `[TO FILL IN: vehicle and DOI]`
 
-## Como contribuir
+## How to contribute
 
-Correções de anotação e relatos de problemas são bem-vindos via *issues* e *pull requests*. Ver as diretrizes em `annotation_guidelines/`.
+Annotation corrections and bug reports are welcome via *issues* and *pull requests*. See the guidelines at `annotation_guidelines/`.
 
-## Contato
+## Contact
 
-- Salomão Pena | Universidade Federal de Uberlândia — FACOM/UFU.
-- Salomão Pena | Instituto Superior de Ciências da Educação da Huíla
+- Salomão Pena | Universidade Federal de Uberlândia — FACOM/UFU (`salomao.pena@ufu.br`).
+- Salomão Pena | Instituto Superior de Ciências da Educação da Huíla (`salomao.pena@isced-huila.edu.ao`)
 
 ---
-
-*Recomendações:* (1) depositar uma versão arquivada em repositório com **DOI** (Zenodo, Mendeley Data ou Figshare) para findability; (2) considerar uma versão **em inglês** deste README e do datasheet para alcance internacional; (3) adicionar metadados **Croissant** (ML Commons) para interoperabilidade legível por máquina.
