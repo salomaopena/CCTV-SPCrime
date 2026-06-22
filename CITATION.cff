@@ -1,18 +1,15 @@
 cff-version: 1.2.0
-message: "Se você utilizar este conjunto de dados, por favor cite-o conforme os metadados abaixo."
-title: "CCTV-SPCrime: conjunto de dados e política de anotação orientada a eventos para detecção de incidentes de segurança pública em imagens de vigilância"
+message: "If you use this dataset, please cite it according to the metadata below."
+title: "CCTV-SPCrime: An Event-Oriented Dataset for Public Safety Incident Detection"
 abstract: >-
-  Conjunto de dados de imagens estáticas de videovigilância anotado segundo uma
-  política orientada a eventos, abrangendo oito classes de incidentes de segurança
-  pública (acidente, comportamento suspeito, crime, incêndio, intrusão, objeto
-  suspeito, queda e vandalismo), com rótulos no formato YOLO e atributos de evento.
+  Dataset of static surveillance images annotated according to an event-oriented policy, covering eight classes of public safety incidents (accident, suspicious behavior, crime, fire, intrusion, suspicious object, fall, and vandalism), with YOLO-format labels and event attributes.
 type: dataset
 authors:
   - given-names: "Salomão Bento Nilo"
     family-names: "Pena"
     affiliation: "Faculdade de Computação (FACOM), Universidade Federal de Uberlândia"
     email: "salomao.pena@ufu.br"
-    # orcid: "https://orcid.org/A-PREENCHER"
+    orcid: "https://orcid.org/0000-0001-5973-0612"
   - given-names: "Jefferson R."
     family-names: "Souza"
     affiliation: "Faculdade de Computação (FACOM), Universidade Federal de Uberlândia"
@@ -22,10 +19,10 @@ authors:
     affiliation: "Faculdade de Computação (FACOM), Universidade Federal de Uberlândia"
     email: "shigueonomura@ufu.br"
 version: "1.0.0"
-date-released: "A-PREENCHER"        # formato AAAA-MM-DD
-license: "A-PREENCHER"              # ex.: CC-BY-4.0
-url: "A-PREENCHER"                  # URL do repositório
-doi: "A-PREENCHER"                  # DOI do depósito arquivado (Zenodo/Mendeley/Figshare)
+date-released: "2026-06-30"        # format AAAA-MM-DD
+license: "CC-BY-4.0"              # ex.: CC-BY-4.0
+url: "https://github.com/salomaopena/CCTV-SPCrime"                  # URL of repository
+doi: "https://doi.org/10.5281/zenodo.20801289"                  # DOI 
 keywords:
   - "conjunto de dados"
   - "anotação orientada a eventos"
@@ -34,7 +31,7 @@ keywords:
   - "segurança pública"
   - "visão computacional"
 preferred-citation:
-  type: article                    # ou conference-paper, conforme o veículo
+  type: article                    
   title: "CCTV-SPCrime: um conjunto de dados e uma política de anotação orientada a eventos para a detecção de incidentes de segurança pública em imagens de vigilância"
   authors:
     - given-names: "Salomão Bento Nilo"
@@ -44,4 +41,4 @@ preferred-citation:
     - given-names: "Shigueo"
       family-names: "Nomura"
   year: 2026
-  # journal/conference, volume, doi: A-PREENCHER
+  #journal/conference, volume, doi: A-PREENCHER
