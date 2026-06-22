@@ -2,7 +2,7 @@
 
 **Dataset of surveillance images annotated according to an event-driven policy, for detecting public safety incidents.**
 
-[![DOI](https://img.shields.io/badge/DOI-A%20PREENCHER-blue)](https://doi.org/10.5281/zenodo.20801289) [![License](https://img.shields.io/badge/license-CC%20BY%204.0-orange)](./LICENSE) [![Version](https://img.shields.io/badge/version-1.0.0-informational)](./CHANGELOG.md)
+[![DOI](https://img.shields.io/badge/10.5281/zenodo.20801289)](https://doi.org/10.5281/zenodo.20801289) [![License](https://img.shields.io/badge/license-CC%20BY%204.0-orange)](./LICENSE) [![Version](https://img.shields.io/badge/version-1.0.0-informational)](./CHANGELOG.md)
 
 > **Documentation:** this repository follows international data documentation standards — see the [DATASHEET.md](DATASHEET.md) (Datasheets for Datasets, Gebru et al.) and the [CITATION.cff](CITATION.cff). The dataset adheres to the **FAIR** principles (Findable, Accessible, Interoperable, Reusable).
 
